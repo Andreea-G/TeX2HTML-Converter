@@ -6,27 +6,12 @@
 
 
 #include <src/master/Master.hpp>
+#include <src/Globals.hpp>
 #include <cerrno>
 #include <iostream>
 #include <fstream>
 
 using namespace std;
-
-// Reads all contents from filename (see reference in Readme)
-string get_file_contents(const char *filename) {
-	ifstream in(filename, ios::in | ios::binary);
-	if (in) {
-		string fileContents;
-		in.seekg(0, ios::end);
-		fileContents.resize(in.tellg());
-		in.seekg(0, ios::beg);
-		in.read(&fileContents[0], fileContents.size());
-		in.close();
-		return(fileContents);
-	}
-	throw(errno);
-}
-
 
 Master::Master(const string html_contents, const string css_contents) :
 	html_file_(html_contents), css_file_(css_contents) {}
@@ -37,8 +22,8 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 	const char *infile = argv[1], *outfile = argv[2], *cssfile = argv[3];
 
 	try {
-		string html_contents = get_file_contents(infile);
-		string css_contents = get_file_contents(cssfile);
+		string html_contents = globals::get_file_contents(infile);
+		string css_contents = globals::get_file_contents(cssfile);
 
 		Master master_process(html_contents, css_contents);
 

@@ -24,7 +24,13 @@ private:
 	//file contents for the html file
 	string contents_;
 
+	//Processing functions. There are called from ProcessFile() only.
+	//Initial file clean up
 	void CleanUp();
+	//Include all scripts from file "javascripts.html"
+	int IncludeJavaScripts ();
+
+
 };
 
 

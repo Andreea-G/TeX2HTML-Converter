@@ -1,0 +1,35 @@
+</script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.4.1/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+<script type="text/javascript" src="http://yui.yahooapis.com/2.4.1/build/container/container-min.js"></script> 
+<script type="text/javascript"> 
+function myAlert(mytext) {
+	var mySimpleDialog = new YAHOO.widget.SimpleDialog("dlg", { 
+		width: "5in", 
+		fixedcenter:true,
+		modal:true,
+		visible:false,
+		draggable:false 
+    });
+    mySimpleDialog.setBody(mytext);
+    mySimpleDialog.render(document.body);
+	mySimpleDialog.show();
+}
+</script>
+<script type="text/javascript"> 
+function toggleButton(a,b,c) {
+	var ele = document.getElementById(a);
+	var text = document.getElementById(b);
+	if(ele.style.display == "block") {
+    		ele.style.display = "none";
+		text.value = "Show" + c;
+  	}
+	else {
+		ele.style.display = "block";
+		text.value = "Hide" + c;
+	}
+} 
+function changeColor(a,s) {
+	a.style.color = s;
+}
+</script>
+

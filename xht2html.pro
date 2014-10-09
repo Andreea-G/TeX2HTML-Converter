@@ -8,11 +8,13 @@ CONFIG += c++11
 SOURCES += src/main.cpp \
     src/master/Master.cpp \
     src/htmlfile/HtmlFile.cpp \
-    src/cssfile/CssFile.cpp
+    src/cssfile/CssFile.cpp \
+	src/Globals.cpp
 
 LIBS += -lre2
 
 HEADERS += \
     src/master/Master.hpp \
     src/htmlfile/HtmlFile.hpp \
-    src/cssfile/CssFile.hpp
+    src/cssfile/CssFile.hpp \
+	src/Globals.hpp
