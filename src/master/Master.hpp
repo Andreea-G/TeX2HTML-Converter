@@ -18,6 +18,7 @@ class Master {
 
 public:
 	Master(const string html_contents, const string css_contents);
+	string get_html_contents() const { return html_file_.get_contents(); }
 
 	int MainRun();
 

@@ -47,6 +47,8 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 			return -1;
 		}
 
+		html_contents = master_process.get_html_contents();
+
 		ofstream out(outfile, ios::out | ios::binary);
 		out << html_contents;
 		out.close();

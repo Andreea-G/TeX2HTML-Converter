@@ -13,12 +13,12 @@ using std::string;
 class CssFile {
 
 public:
-	CssFile(const string css_contents) : css_contents_(css_contents) {}
+	CssFile(const string css_contents) : contents_(css_contents) {}
 	int ProcessFile();
 
 private:
 	//file contents for the css file
-	string css_contents_;
+	string contents_;
 };
 
 
