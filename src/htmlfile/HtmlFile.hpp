@@ -29,7 +29,10 @@ private:
 	void CleanUp();
 	//Include all scripts from file "javascripts.html"
 	int IncludeJavaScripts ();
-
+	//Make n columns, total width equal to MAX_WIDTH in. To modify max width change MAX_WIDTH in globals.
+		//For US Letter Landscape set MAX_WIDTH to 11.
+		//TODO Only works for same number of columns everywhere! Will need to improve later...
+	void MakeColumns();
 
 };
 
