@@ -14,6 +14,7 @@ class HtmlFile {
 
 public:
 	HtmlFile(const string html_contents) : html_contents_(html_contents) {}
+	int ProcessFile();
 
 private:
 	//file contents for the html file

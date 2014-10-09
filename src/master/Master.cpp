@@ -12,7 +12,7 @@
 
 using namespace std;
 
-// Reads all contents from filename (see reference above)
+// Reads all contents from filename (see reference in Readme)
 string get_file_contents(const char *filename) {
 	ifstream in(filename, ios::in | ios::binary);
 	if (in) {
@@ -61,5 +61,15 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 
 
 int Master::MainRun() {
+	int exit_status = html_file_.ProcessFile();
+	if (exit_status < 0) {
+		return -1;
+	}
+
+	exit_status = css_file_.ProcessFile();
+	if (exit_status < 0) {
+		return -1;
+	}
+
 	return 0;
 }

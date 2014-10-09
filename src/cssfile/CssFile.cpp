@@ -1,5 +1,5 @@
 /*
- * HtmlFile.cpp
+ * CssFile.cpp
  * Created on: Oct 8, 2014
  * Author: Andreea G
  */
@@ -12,4 +12,7 @@
 
 using namespace std;
 
+int CssFile::ProcessFile() {
+	return 0;
+}
 

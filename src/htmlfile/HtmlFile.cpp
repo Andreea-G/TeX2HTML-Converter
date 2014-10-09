@@ -12,5 +12,9 @@
 
 using namespace std;
 
+int HtmlFile::ProcessFile() {
+	return 0;
+}
+
 
 
