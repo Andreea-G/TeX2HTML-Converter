@@ -15,6 +15,8 @@ class Master {
 public:
 	Master(const string html_contents, const string css_contents);
 
+	int MainRun();
+
 	static int ParseArgsAndExecute(int argc, char* argv[]);
 
 private:

@@ -3,7 +3,7 @@
 #ignore object files
 *.o
 #ignore the binary
-tex2html
+xht2html
 Makefile
 
 #input files 

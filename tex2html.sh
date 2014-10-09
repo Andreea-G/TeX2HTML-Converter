@@ -8,9 +8,6 @@ OUTFILE=$FOLDER/$FILE/$FILE.html
 CSSFILE=$FOLDER/$FILE/$FILE.css
 echo $TEXFILE
 
-# To compile:
-# g++ xht2html.cpp -Wall -o xht2html -lre2
-
 echo "--- Running mk4ht ---"
 #mk4ht mzlatex $TEXFILE "html,mathplayer" #> /dev/null
 mv $FILE.* $FOLDER/$FILE/
@@ -18,11 +15,11 @@ mv $FILE*x.png $FOLDER/$FILE/
 
 echo
 echo "--- Running xht2html ---"
-./tex2html $INFILE $OUTFILE $CSSFILE
+./xht2html $INFILE $OUTFILE $CSSFILE
 
 # Clean up
 cd $FOLDER/$FILE
-\rm $FILE.4ct $FILE.4tc $FILE.dvi $FILE.idv $FILE.lg $FILE.tmp $FILE.xref  #Do not delete $FILE.toc, or the contents will not appear!
+\rm $FILE.4ct $FILE.4tc $FILE.dvi $FILE.idv $FILE.lg $FILE.tmp $FILE.xref   #Do not delete $FILE.toc, or the contents will not appear!
 cd ..
 cd ..
 

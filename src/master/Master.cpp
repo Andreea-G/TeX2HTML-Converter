@@ -42,10 +42,14 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 
 		Master master_process(html_contents, css_contents);
 
+		int exit_status = master_process.MainRun();
+		if (exit_status < 0) {
+			return -1;
+		}
+
 		ofstream out(outfile, ios::out | ios::binary);
 		out << html_contents;
 		out.close();
-
 		return 0;
 
 	} catch (int &e) {
@@ -53,4 +57,9 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 	}
 
 	return -1; //program shouldn't reach here
+}
+
+
+int Master::MainRun() {
+	return 0;
 }
