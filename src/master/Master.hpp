@@ -4,10 +4,14 @@
 	* Author: Andreea G
 	*/
 
-#ifndef MASTER__MASTER_H_
-#define MASTER__MASTER_H_
+#ifndef MASTER__MASTER_HPP_
+#define MASTER__MASTER_HPP_
 
 #include <string>
+
+#include <src/htmlfile/HtmlFile.hpp>
+#include <src/cssfile/CssFile.hpp>
+
 using std::string;
 
 class Master {
@@ -20,9 +24,9 @@ public:
 	static int ParseArgsAndExecute(int argc, char* argv[]);
 
 private:
-	//file contents for the html and css files
-	string html_contents_, css_contents_;
+	HtmlFile html_file_;
+	CssFile css_file_;
 };
 
 
-#endif /*MASTER__MASTER_H_ */
+#endif /*MASTER__MASTER_HPP_ */

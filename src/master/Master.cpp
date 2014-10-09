@@ -29,7 +29,7 @@ string get_file_contents(const char *filename) {
 
 
 Master::Master(const string html_contents, const string css_contents) :
-				html_contents_(html_contents), css_contents_(css_contents) {};
+	html_file_(html_contents), css_file_(css_contents) {}
 
 
 int Master::ParseArgsAndExecute(int argc, char* argv[]) {
