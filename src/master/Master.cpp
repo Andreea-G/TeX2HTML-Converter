@@ -33,10 +33,16 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 		}
 
 		html_contents = master_process.get_html_contents();
+		css_contents = master_process.get_css_contents();
 
 		ofstream out(outfile, ios::out | ios::binary);
 		out << html_contents;
 		out.close();
+
+		ofstream cssout(cssfile, ios::out | ios::binary);
+		cssout << css_contents;
+		cssout.close();
+
 		return 0;
 
 	} catch (int &e) {
