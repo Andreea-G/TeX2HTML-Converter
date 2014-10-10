@@ -29,6 +29,16 @@ int HtmlFile::ProcessFile() {
 void HtmlFile::CleanUp() {
 	//Remove strange text in the begining of file
 	(void) RE2::Replace(&contents_, "<!ENTITY % MATHML.prefixed \"INCLUDE\"> \n<!ENTITY % MATHML.prefix \"m\">", "");
+
+	//Clean up file. Delete useless endlines, and insert endlines before comments (useful since many of the comments in html file point to corresponding lines inside the original Latex file!)
+	string begining(""), replacement("");
+	(void) RE2::PartialMatch(contents_, "((.|\\s)*)</script>", &begining);
+	(void) RE2::PartialMatch(contents_, "</script>([\\s\\S]*?)</body>", &replacement);
+	(void) RE2::GlobalReplace(&replacement, "(\\s+)", " ");
+	(void) RE2::GlobalReplace(&replacement, "<![-][-]", "\n\n<!--");
+	contents_ = begining + "</script>\n\n" + replacement + "\n</body>\n</html>";
+
+
 	return;
 }
 
