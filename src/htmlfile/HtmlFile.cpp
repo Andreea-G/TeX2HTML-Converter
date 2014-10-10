@@ -14,13 +14,13 @@
 using namespace std;
 
 int HtmlFile::ProcessFile() {
-
 	CleanUp();
 	int exit_status = IncludeJavaScripts();
 	if (exit_status < 0) {
 		return -1;
 	}
 	MakeColumns();
+	AlignEquations();
 
 	return 0;
 }
@@ -30,7 +30,8 @@ void HtmlFile::CleanUp() {
 	//Remove strange text in the begining of file
 	(void) RE2::Replace(&contents_, "<!ENTITY % MATHML.prefixed \"INCLUDE\"> \n<!ENTITY % MATHML.prefix \"m\">", "");
 
-	//Clean up file. Delete useless endlines, and insert endlines before comments (useful since many of the comments in html file point to corresponding lines inside the original Latex file!)
+	//Clean up file. Delete useless endlines, and insert endlines before comments
+		//(useful since many of the comments in html file point to corresponding lines inside the original Latex file!)
 	string begining(""), replacement("");
 	(void) RE2::PartialMatch(contents_, "((.|\\s)*)</script>", &begining);
 	(void) RE2::PartialMatch(contents_, "</script>([\\s\\S]*?)</body>", &replacement);
@@ -38,9 +39,9 @@ void HtmlFile::CleanUp() {
 	(void) RE2::GlobalReplace(&replacement, "<![-][-]", "\n\n<!--");
 	contents_ = begining + "</script>\n\n" + replacement + "\n</body>\n</html>";
 
-
 	return;
 }
+
 
 int HtmlFile::IncludeJavaScripts () {
 	try{
@@ -54,9 +55,11 @@ int HtmlFile::IncludeJavaScripts () {
 	return -1; //program shouldn't reach here
 }
 
+
 void HtmlFile::MakeColumns() {
 	int columnNumber;
 	string dummy;
+
 	(void) RE2::PartialMatch(contents_, "BeginColumns(\\s)(\\d+)", &dummy, &columnNumber);
 	cout << "Column number: " << columnNumber << "\n";
 	string myColumns = "<head><style>\n.myWindow{\nmax-width:"
@@ -75,6 +78,65 @@ void HtmlFile::MakeColumns() {
 	(void) RE2::Replace(&contents_, "<body(\\s*)>", "<body class=\"myWindow\"  onload=\"window.scrollTo(0,0)\">\n");
 	(void) RE2::GlobalReplace(&contents_, "BeginColumns(\\s)(\\d+)", "<div class=\"myColumns\">");
 	(void) RE2::GlobalReplace(&contents_, "EndColumns", "</div>");
+
+	return;
+}
+
+
+void HtmlFile::AlignEquations() {
+	//Align equations with "align" environment
+	string dummy;		//will be useful to get rid of "(\\s)"
+	string equation, replacement;
+	while (RE2::PartialMatch(contents_, "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" ><mtable columnalign=\"left\" class=\"align\">((.|\\s)*?)</mtr></mtable></math>", &equation)) {
+		string labelRaw, labelTable("</mtr></mtable></mtd><mtd class=\"align-label\"><mtable class=\"align\">");
+		while (RE2::PartialMatch(equation, "<mtd(( columnalign=\"right\" )| )class=\"align-label\">((.|\\s)*?)</mtd>", &dummy, &dummy, &labelRaw)) {
+			labelTable = labelTable + "<mtr><mtd columnalign=\"right\" class=\"align-label\">" + labelRaw + "</mtd></mtr>";
+			RE2::Replace(&equation, "<mtd(( columnalign=\"right\" )| )class=\"align-label\">((.|\\s)*?)</mtd>", "");
+		}
+		equation = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" ><mtable class=\"align-full\"><mtr><mtd><mtable columnalign=\"left\" class=\"align\">" + equation + labelTable + "</mtable></mtd></mtr></mtable></math>";
+		re2::StringPiece re2Equation(equation);
+		RE2::Replace(&contents_, "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" ><mtable columnalign=\"left\" class=\"align\">((.|\\s)*?)</mtr></mtable></math>", re2Equation);
+	}
+
+	//Align equations with "eqnarray" environment
+	while (RE2::PartialMatch(contents_, "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" > <mtable class=\"eqnarray\" columnalign=\"right center left\" >((.|\\s)*?)</mtr></mtable>(\\s)</math>", &equation)) {
+		string labelRaw, labelTable("</mtr></mtable></mtd><mtd class=\"eqnarray-4\"><mtable class=\"eqnarray\">");
+		while (RE2::PartialMatch(equation, "<mtd class=\"eqnarray-4\">((.|\\s)*?)</mtd>", &labelRaw)) {
+			labelTable = labelTable + "<mtr><mtd class=\"eqnarray-4\">" + labelRaw + "</mtd></mtr>";
+			RE2::Replace(&equation, "<mtd class=\"eqnarray-4\">((.|\\s)*?)</mtd>", "");
+		}
+		equation = "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" ><mtable class=\"eqnarray-full\"><mtr><mtd><mtable class=\"eqnarray\" columnalign=\"right center left\" >" + equation + labelTable + "</mtable></mtd></mtr></mtable></math>";
+		re2::StringPiece re2Equation(equation);
+		RE2::Replace(&contents_, "<math xmlns=\"http://www.w3.org/1998/Math/MathML\" display=\"block\" > <mtable class=\"eqnarray\" columnalign=\"right center left\" >((.|\\s)*?)</mtr></mtable>(\\s)</math>", re2Equation);
+	}
+
+	//Fix strange indentation for "eqnarray" environment. Specifically, the next paragraph is mistakenly indented after numbered "eqnarrays".
+	(void) RE2::GlobalReplace(&contents_, "<p class=\"nopar\" > </p> \n\n<!--l. (\\d+)--><p class=\"indent\" >", "<p class=\"noindent\" >");
+
+	//Similarly, text following a numbered "equation" environment is always indented.
+		//However, there is no pattern to correct for this time! :( Will make default non-indented.
+		//Only way to make indented text following equation environment will be by writing "\indent" in the lyx or tex file at the begining of the line.
+		//Or just use the align or eqnarray environments instead...
+	int eqnNumber = 0, lineNumber = 0;
+	while (RE2::PartialMatch(contents_, "</math></td><td class=\"eq-no\">\\((\\d+)\\)</td></tr></table> \n\n<!--l. (\\d+)--><p class=\"indent\" >", &eqnNumber, &lineNumber)) {
+		replacement = "</math></td><td class=\"eq-no\">(" + globals::NumberToString(eqnNumber) + ")</td></tr></table> \n\n<!--l. (" + globals::NumberToString(lineNumber) + ")--><p class=\"noindent\" >";
+		re2::StringPiece re2Replacement(replacement);
+		RE2::Replace(&contents_, "</math></td><td class=\"eq-no\">\\((\\d+)\\)</td></tr></table> \n\n<!--l. (\\d+)--><p class=\"indent\" >", re2Replacement);
+	}
+
+	//Make indentations. Important! This block must be after the "equation" environment indentations (see above)
+	(void) RE2::GlobalReplace(&contents_, "class=\"noindent\" >IndentHere ", "class=\"indent\" >");
+	(void) RE2::GlobalReplace(&contents_, "class=\"indent\" >IndentHere ", "class=\"indent\" >");
+	(void) RE2::GlobalReplace(&contents_, "class=\"noindent\" > IndentHere ", "class=\"indent\" > ");
+	(void) RE2::GlobalReplace(&contents_, "class=\"indent\" > IndentHere ", "class=\"indent\" > ");
+	(void) RE2::GlobalReplace(&contents_, "FullJustify", "<div align=\"justify\">");
+	(void) RE2::GlobalReplace(&contents_, "EndJustify", "</div>");
+	(void) RE2::GlobalReplace(&contents_, "DrawHLine", "\n<hr>\n");
+
+	//Remove strange empty columns for "align-star"
+	(void) RE2::GlobalReplace(&contents_, "<mtd columnalign=\"right\" class=\"align-label\"></mtd> <mtd class=\"align-label\"> <mspace width=\"2em\"/></mtd>", "");
+	//Remove strange empty <mtext class="endlabel"> for "eqnarray"
+	(void) RE2::GlobalReplace(&contents_, "<mtext class=\"endlabel\"></mtext>", "");
 
 	return;
 }

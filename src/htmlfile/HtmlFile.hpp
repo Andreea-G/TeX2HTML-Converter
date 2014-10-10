@@ -35,6 +35,8 @@ private:
 		//TODO Only works for same number of columns everywhere! Will need to improve later...
 	void MakeColumns();
 
+	void AlignEquations();
+
 };
 
 
