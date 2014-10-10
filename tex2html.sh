@@ -6,10 +6,18 @@ TEXFILE=$FOLDER/$FILE/$FILE.tex
 INFILE=$FOLDER/$FILE/$FILE.xht
 OUTFILE=$FOLDER/$FILE/$FILE.html
 CSSFILE=$FOLDER/$FILE/$FILE.css
+CSSFILE1=$FOLDER/$FILE/$FILE'1'.css
 echo $TEXFILE
 
-echo "--- Running mk4ht ---"
-#mk4ht mzlatex $TEXFILE "html,mathplayer" #> /dev/null
+RERUNMK4HT=0
+if [ $RERUNMK4HT -eq 1 ]; then
+  echo "--- Running mk4ht ---"
+  mk4ht mzlatex $TEXFILE "html,mathplayer" #> /dev/null
+  cp $CSSFILE $CSSFILE1  #store for backup later
+else
+  cp $CSSFILE1 $CSSFILE
+fi
+
 mv $FILE.* $FOLDER/$FILE/
 mv $FILE*x.png $FOLDER/$FILE/
 

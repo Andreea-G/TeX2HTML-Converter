@@ -14,6 +14,8 @@ class CssFile {
 
 public:
 	CssFile(const string css_contents) : contents_(css_contents) {}
+	string get_contents() const { return contents_; }
+
 	int ProcessFile();
 
 private:
