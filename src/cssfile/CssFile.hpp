@@ -8,6 +8,8 @@
 #define CSSFILE__CSSFILE_HPP_
 
 #include <string>
+#include <re2/re2.h>
+
 using std::string;
 
 class CssFile {
@@ -21,6 +23,11 @@ public:
 private:
 	//file contents for the css file
 	string contents_;
+
+	//Set font sizes for headers
+	void FontSizes();
+	//Correct math fonts (so e.g. \boldsymbol command in Latex will give proper bold math)
+	void MathFonts();
 };
 
 

@@ -40,7 +40,7 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 		out.close();
 
 		ofstream cssout(cssfile, ios::out | ios::binary);
-		cssout << css_contents << "\ntesting\n";
+		cssout << css_contents;
 		cssout.close();
 
 		return 0;
