@@ -21,6 +21,10 @@ int HtmlFile::ProcessFile() {
 	}
 	MakeColumns();
 	AlignEquations();
+	exit_status = IncludeVideos();
+	if (exit_status < 0) {
+		return -1;
+	}
 
 	return 0;
 }
@@ -139,4 +143,21 @@ void HtmlFile::AlignEquations() {
 	(void) RE2::GlobalReplace(&contents_, "<mtext class=\"endlabel\"></mtext>", "");
 
 	return;
+}
+
+//BeginVideo bear&#x02D9;movie.ogg<img src="fig_1.png" alt="PIC" />EndVideo
+
+int HtmlFile::IncludeVideos() {
+	string VideoName("");
+	string replacement, dummy;
+	//must have ogg format, otherwise Firefox will not work!
+	while (RE2::PartialMatch(contents_, "BeginVideo(\\s)((\\w|&#x02D9;)+).ogg([\\s\\S]*?)EndVideo", &dummy, &VideoName, &dummy)) {
+		//TODO: test if VideoName is empty
+		(void) RE2::GlobalReplace(&VideoName, "&#x02D9;", "_");
+		replacement = "<video width=\"480\" height=\"360\" controls> <source src=\"" + VideoName + ".ogg\" type=\"video/ogg\"><source src=\"" + VideoName + ".mp4\" type=\"video/mp4\"> </video>";
+		re2::StringPiece re2Replacement(replacement);
+		(void) RE2::Replace(&contents_, "BeginVideo(\\s)((\\w|&#x02D9;)+).ogg((.|\\s)*?)EndVideo", re2Replacement);
+	}
+	//TODO test if any "BeginVideo...EndVideo" left.
+	return 0;
 }
