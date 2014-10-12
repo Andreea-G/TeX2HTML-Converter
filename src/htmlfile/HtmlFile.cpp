@@ -33,7 +33,7 @@ int HtmlFile::ProcessFile() {
 		return -1;
 	}
 	MathCharacters();
-
+	FiguresFormat();
 	return 0;
 }
 
@@ -209,5 +209,11 @@ void HtmlFile::MathCharacters() {
 	//Replace strange short bar on top of characters when the latex command \bar{} is used.
 //	(void) RE2::GlobalReplace(&contents, "<mo class=\"MathClass-op\">&#x0304;</mo>", "<mo class=\"MathClass-op\">-</mo>");
 
+	return;
+}
+
+void HtmlFile::FiguresFormat() {
+	(void) RE2::GlobalReplace(&contents_, "hr class=\"figure\"", "span class=\"figure\"");
+	(void) RE2::GlobalReplace(&contents_, "hr class=\"endfigure\"", "span class=\"endfigure\"");
 	return;
 }
