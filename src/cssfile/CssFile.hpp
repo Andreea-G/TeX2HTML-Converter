@@ -4,8 +4,8 @@
 	* Author: Andreea G
 	*/
 
-#ifndef CSSFILE__CSSFILE_HPP_
-#define CSSFILE__CSSFILE_HPP_
+#ifndef CSSFILE__CSSFILE_HPP
+#define CSSFILE__CSSFILE_HPP
 
 #include <string>
 #include <re2/re2.h>
@@ -31,4 +31,4 @@ private:
 };
 
 
-#endif /*CSSFILE__CSSFILE_HPP_ */
+#endif /*CSSFILE__CSSFILE_HPP */

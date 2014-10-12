@@ -4,8 +4,8 @@
 	* Author: Andreea G
 	*/
 
-#ifndef HTMLFILE__HTMLFLE_HPP_
-#define HTMLFILE__HTMLFLE_HPP_
+#ifndef HTMLFILE__HTMLFLE_HPP
+#define HTMLFILE__HTMLFLE_HPP
 
 #include <string>
 #include <re2/re2.h>
@@ -46,4 +46,4 @@ private:
 };
 
 
-#endif /*HTMLFILE__HTMLFLE_HPP_ */
+#endif /*HTMLFILE__HTMLFLE_HPP */

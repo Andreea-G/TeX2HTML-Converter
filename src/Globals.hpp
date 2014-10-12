@@ -1,5 +1,5 @@
-#ifndef GLOBALS_H
-#define GLOBALS_H
+#ifndef GLOBALS_HPP
+#define GLOBALS_HPP
 
 #include <string>
 #include <sstream>
@@ -20,8 +20,8 @@ std::string NumberToString (T Number) {
 }
 
 // Reads all contents from filename (see reference in Readme)
-extern std::string get_file_contents(const char *filename);
+std::string get_file_contents(const char *filename);
 
 }
 
-#endif // GLOBALS_H
+#endif // GLOBALS_HPP
