@@ -32,7 +32,11 @@ int HtmlFile::ProcessFile() {
 		cerr << "Error in HtmlFile::Toggles\n";
 		return -1;
 	}
-
+	exit_status = Alerts();
+	if (exit_status < 0) {
+		cerr << "Error in HtmlFile::Alerts\n";
+		return -1;
+	}
 	return 0;
 }
 
@@ -196,6 +200,29 @@ int HtmlFile::Toggles() {
 	}
 	//End all Toggles
 	(void) RE2::GlobalReplace(&contents_, "EndToggle", "</div>");
+
+	return 0;
+}
+
+int HtmlFile::Alerts() {
+	//Start all Alerts
+	string dummy;
+	string alertText;
+	while (RE2::PartialMatch(contents_, "BeginAlert(\\s)([\\s\\S]*?)(\\s)AlertOnClick", &dummy, &alertText)) {
+		cout << "Alert:\n";
+		cout << alertText << "\n";
+		(void) RE2::GlobalReplace(&alertText, "\"", "\\\\\\\\'"); //yup, 8 of them!
+			//The string parser removes half, regex removes half of what's left,
+			//and we also repeat the operation when inserting alertText into contents...
+			//End result will be one \ followed by one '
+		(void) RE2::GlobalReplace(&alertText, "\n", " ");
+		alertText = "<span onmouseover=\"return changeColor(this,'red')\" onmouseout=\"return changeColor(this,'black')\" onClick=\"return myAlert('" + alertText + "')\">";
+		re2::StringPiece re2alertText(alertText);
+		(void) RE2::Replace(&contents_, "((<p class=\"noindent\" > )*)BeginAlert(\\s)([\\s\\S]*?)(\\s)AlertOnClick(( </p>)*)", re2alertText);
+		//TODO: this could also be "indent" ??
+	}
+	//End all Alerts
+	(void) RE2::GlobalReplace(&contents_, "EndAlert", "</span>");
 
 	return 0;
 }

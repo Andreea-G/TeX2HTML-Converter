@@ -44,7 +44,8 @@ private:
 	int IncludeVideos();
 	//Add Toggles
 	int Toggles();
-
+	//Add Alerts
+	int Alerts();
 };
 
 
