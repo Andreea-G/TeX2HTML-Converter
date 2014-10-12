@@ -44,6 +44,10 @@ private:
 	int IncludeVideos();
 	//Add Toggles
 	int Toggles();
+	//Change some of the math characters to better resemble the pdf output.
+		//So far: Lagrangian density (curly L character) and Hamiltonian density (curly H)
+	void MathCharacters();
+
 
 };
 
