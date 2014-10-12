@@ -17,12 +17,19 @@ int HtmlFile::ProcessFile() {
 	CleanUp();
 	int exit_status = IncludeJavaScripts();
 	if (exit_status < 0) {
+		cerr << "Error in HtmlFile::IncludeJavaScripts\n";
 		return -1;
 	}
 	MakeColumns();
 	AlignEquations();
 	exit_status = IncludeVideos();
 	if (exit_status < 0) {
+		cerr << "Error in HtmlFile::IncludeVideos\n";
+		return -1;
+	}
+	exit_status = Toggles();
+	if (exit_status < 0) {
+		cerr << "Error in HtmlFile::Toggles\n";
 		return -1;
 	}
 
@@ -159,5 +166,36 @@ int HtmlFile::IncludeVideos() {
 		(void) RE2::Replace(&contents_, "BeginVideo(\\s)((\\w|&#x02D9;)+).ogg((.|\\s)*?)EndVideo", re2Replacement);
 	}
 	//TODO test if any "BeginVideo...EndVideo" left.
+	return 0;
+}
+
+int HtmlFile::Toggles() {
+	//Start all Toggles
+	string dummy, replacement;
+	string IDword, ShowHide, Display(""), BackColor;
+	while (RE2::PartialMatch(contents_, "BeginToggle(\\s)(\\w+)(\\s)(\\w+)(\\s)(\\w+)(\\s)((\\w|\\s|&#x2019;)*)(\\s)BeginToggle", &dummy, &ShowHide, &dummy, &IDword, &dummy, &BackColor, &dummy, &Display)) {
+		(void) RE2::GlobalReplace(&Display, "\n", " ");
+		if (RE2::FullMatch(Display, "null")) {
+			(void) RE2::GlobalReplace(&Display, "null", "");
+		} else {Display = " " + Display; }
+		if (RE2::FullMatch(ShowHide, "Show")) {
+			replacement = "<input id=\"displayIDword\" type=\"button\" onclick=\"return toggleButton('toggleIDword','displayIDword','Myval')\" value=\"HideMyval\"><br><div id=\"toggleIDword\" style=\"display:block;background-color:#MyColor\">";
+		} else if (RE2::FullMatch(ShowHide, "Hide")) {
+			replacement = "<input id=\"displayIDword\" type=\"button\" onclick=\"return toggleButton('toggleIDword','displayIDword','Myval')\" value=\"ShowMyval\"><br><div id=\"toggleIDword\" style=\"display:none;background-color:#MyColor\">";
+		} else {
+			return -1;
+		}
+		re2::StringPiece re2IDword(IDword);
+		(void) RE2::GlobalReplace(&replacement, "IDword", re2IDword);
+		re2::StringPiece re2Display(Display);
+		(void) RE2::GlobalReplace(&replacement, "Myval", re2Display);
+		re2::StringPiece re2BackColor(BackColor);
+		(void) RE2::GlobalReplace(&replacement, "MyColor", re2BackColor);
+		re2::StringPiece re2Replacement(replacement);
+		(void) RE2::Replace(&contents_, "BeginToggle(\\s)(\\w+)(\\s)(\\w+)(\\s)(\\w+)(\\s)((\\w|\\s|&#x2019;)*)(\\s)BeginToggle", re2Replacement);
+	}
+	//End all Toggles
+	(void) RE2::GlobalReplace(&contents_, "EndToggle", "</div>");
+
 	return 0;
 }

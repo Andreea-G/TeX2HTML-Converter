@@ -42,6 +42,8 @@ private:
 	void AlignEquations();
 	//Include Videos in the same way as we can include graphics. ogg format is needed for Firefox!
 	int IncludeVideos();
+	//Add Toggles
+	int Toggles();
 
 };
 
