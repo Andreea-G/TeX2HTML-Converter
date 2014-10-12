@@ -28,6 +28,9 @@ private:
 	void FontSizes();
 	//Correct math fonts (so e.g. \boldsymbol command in Latex will give proper bold math)
 	void MathFonts();
+	//Correct alignments for equation, align, and eqnarray environments (equations centered, labels flushed right)
+	void AlignEquations();
+
 };
 
 
