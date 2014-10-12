@@ -3,7 +3,7 @@ CXX           = g++
 CXXFLAGS      = -pthread -std=c++11 -pedantic -Wall -Wextra
 LFLAGS        = -Wall
 INCPATH       = -I. -I/usr/local/include
-LIBS	          = -L/usr/local/lib -lre2
+LIBS	      = -L/usr/local/lib -lre2
 DEL_FILE      = rm -f
 
 ####### Files

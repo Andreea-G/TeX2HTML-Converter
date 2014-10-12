@@ -4,7 +4,7 @@
 *.o
 #ignore the binary
 xht2html
-Makefile
+#Makefile
 
 #input files 
 Files*
