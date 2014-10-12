@@ -37,6 +37,9 @@ int HtmlFile::ProcessFile() {
 		cerr << "Error in HtmlFile::Alerts\n";
 		return -1;
 	}
+	MathCharacters();
+	FiguresFormat();
+
 	return 0;
 }
 
@@ -156,8 +159,6 @@ void HtmlFile::AlignEquations() {
 	return;
 }
 
-//BeginVideo bear&#x02D9;movie.ogg<img src="fig_1.png" alt="PIC" />EndVideo
-
 int HtmlFile::IncludeVideos() {
 	string VideoName("");
 	string replacement, dummy;
@@ -225,4 +226,21 @@ int HtmlFile::Alerts() {
 	(void) RE2::GlobalReplace(&contents_, "EndAlert", "</span>");
 
 	return 0;
+}
+
+void HtmlFile::MathCharacters() {
+	//Replace strange curly L character for Lagrangian density with a characted more similar to the pdf output. Same for Hamiltonian density.
+	(void) RE2::GlobalReplace(&contents_, "<mi mathvariant=\"bold-script\">&#x2112;</mi>", "<mi style=\"font-family: cursive;\">L</mi>");
+	(void) RE2::GlobalReplace(&contents_, "<mi mathvariant=\"bold-script\">&#x210B;</mi>", "<mi style=\"font-family: cursive;\">H</mi>");
+	//TODO: Do I want this?:
+	//Replace strange short bar on top of characters when the latex command \bar{} is used.
+//	(void) RE2::GlobalReplace(&contents, "<mo class=\"MathClass-op\">&#x0304;</mo>", "<mo class=\"MathClass-op\">-</mo>");
+
+	return;
+}
+
+void HtmlFile::FiguresFormat() {
+	(void) RE2::GlobalReplace(&contents_, "hr class=\"figure\"", "span class=\"figure\"");
+	(void) RE2::GlobalReplace(&contents_, "hr class=\"endfigure\"", "span class=\"endfigure\"");
+	return;
 }

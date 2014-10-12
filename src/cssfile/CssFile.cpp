@@ -15,6 +15,7 @@ using namespace std;
 int CssFile::ProcessFile() {
 	FontSizes();
 	MathFonts();
+	ParagraphSpacing();
 	AlignEquations();
 
 	return 0;
@@ -22,6 +23,11 @@ int CssFile::ProcessFile() {
 
 void CssFile::FontSizes() {
 	(void) RE2::Replace(&contents_, ".cmbx", "h2 { font-size:x-large; text-align:center;}\nh3 { font-size:x-large;}\nh4 { font-size:large;}\nh5 { font-size:medium;}\n.cmbx");
+	return;
+}
+
+void CssFile::ParagraphSpacing() {
+	(void) RE2::Replace(&contents_, "p.noindent", "p{ margin: 0.5em; }\np.noindent");
 	return;
 }
 

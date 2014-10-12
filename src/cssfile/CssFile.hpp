@@ -26,6 +26,8 @@ private:
 
 	//Set font sizes for headers
 	void FontSizes();
+	//Make paragraph spacing 0.5em (half an empty line) rather than 1em (one full line between paragraphs)
+	void ParagraphSpacing();
 	//Correct math fonts (so e.g. \boldsymbol command in Latex will give proper bold math)
 	void MathFonts();
 	//Correct alignments for equation, align, and eqnarray environments (equations centered, labels flushed right)
