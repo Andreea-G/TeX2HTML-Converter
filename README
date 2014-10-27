@@ -1,0 +1,5 @@
+git clone <name of repo> -o ${HOME}/.tex2html
+cd ${HOME}/.tex2html
+make
+
+

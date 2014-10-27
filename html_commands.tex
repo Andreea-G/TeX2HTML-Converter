@@ -1,0 +1,104 @@
+% ------------------------------ html_commands.tex ------------------------------
+
+% This file is called by the main tex file (say main_file.tex) file via \include{html_commands.tex}
+% The file has dual purpose:
+% - when placed in the same folder as the tex2html program, it contains only "Html specific commands", and no "Pdf specific commands" . Tex2html will make use of the "Html commands" and generate an html file.
+% - when a pdf file is generated, the program automatically concatenates this file with pdf_commands.tex, which contains "Pdf specific commands". The resulting combined file *must* also be called html_commands.tex (so that it would be recognized by main_file.tex). The program then places the resulting file html_commands.tex obtained after concatenation in the same folder as main_file.tex. Then it generates a pdf file by simply running pdflatex in the usual manner (Pdf commands override some of the Html commands to generate a good pdf). Once can then also open the main_file.tex in a tex editor and generate a pdf as usual.
+% Html commands will therefore be present in either case, but Pdf commands will only be present in the file located in the same folder as main_file.tex
+
+
+% Short-hand for labeling things using hyperref (first is for numbering equations, second is for the rest: figures, sections etc).
+\newcommand\hyeqref[1]{\hyperref[#1]{\eqref{#1}}}
+\newcommand\hyref[1]{\hyperref[#1]{\ref{#1}}}
+
+% ------- Html specific commands: -------
+\renewcommand\cite[1]{[#1]}
+\newcommand\citet[1]{[#1]}
+
+% Redefine some common latex commands to work with tex2html. 
+\renewcommand\indent{IndentHere }
+\let\oldbs=\boldsymbol
+\renewcommand\boldsymbol[1]{\mathit{\mathbf{#1}}}
+%\newcommand\bs[1]{\boldsymbol{#1}}
+\let\bs=\boldsymbol
+\newcommand\DrawHLine{DrawHLine}
+%\renewcommand\[{\begin{equation*}}
+%\renewcommand\]{\end{equation*}}
+
+% Usage: just like \caption but for videos. Writes Video: rather than Figure: in the beginning. 
+\newcommand\videocaption[1]%
+{\renewcommand{\figurename}{Video}%
+\caption{#1}
+}
+
+% For including videos (similarly to figures).
+% Usage: \includevideo{name} . Use same as you would use \includegraphics but do *NOT* write an extension. File must be name.ogg to be viewed with Firefox and name.mp4 to be viewed with Safari. Example:
+%\begin{figure}[h!] \label{mov_bear}
+%\centering
+%\includevideo{bear_movie}
+%\caption{Some movie of a bear.}
+%\end{figure}
+\newcommand\includevideo[1]%
+{BeginVideo #1.ogg%
+\includegraphics{fig_1.png}%
+EndVideo
+}
+
+% Toggle environment
+% Usage: \begin{htmlToggle}[What to show/hide]{Show/Hide}{label}[background color] Text to be shown \end{htmlToggle}
+% Color codes: 6 hexadecimal numbers representing RGB. Eg. red = FF0000, yellow = FFFF00, black = 000000 etc  (see http://html-color-codes.info/)
+% Here you can define your own color codes as below
+\usepackage{xargs}
+\def \White{FFFFFF}
+\def \ZerothGray{FDFDFD}
+\def \FirstGray{FAFAFA}
+\def \SecondGray{F8F8F8}
+\def \ThirdGray{F2F2F2}
+\def \MyRed{FF0000}
+\newenvironmentx{htmlToggle}[4][1=null, 4=\ZerothGray]% ----> SET DEFAULT COLOR HERE!!
+{BeginToggle #2 #3 #4 #1 BeginToggle}%
+{EndToggle}
+
+% Alert environment
+% Usage: \begin{htmlAlert}{Alert contents} Stuff to click on \end{htmlAlert}
+% Examples may include math, links, text of several lines etc:
+%\begin{htmlAlert}{\href{myhtml7.html}{Url} } Click here! \end{htmlAlert} \\
+%\begin{htmlAlert}{\href{http://www.google.com}{Google!} } Click here! \end{htmlAlert} \\
+%\begin{htmlAlert}{Some text\\ some more boldsymbol $\boldsymbol{x}\boldsymbol{y}$  \\ and more and more and more and more and more and more and more and more and more and more and more and more and more } Click me! \end{htmlAlert} \\
+%\begin{htmlAlert}{$x^\mu\arr x\prime^\mu$} Click me too! \end{htmlAlert} \\
+\newenvironment{htmlAlert}[1]% 
+{ BeginAlert #1 AlertOnClick}%
+{EndAlert}
+
+% Surprisingly this had not been defined. So we're defining it here.  
+\newenvironment{fulljustify}%
+{FullJustify}%
+{EndJustify}
+
+% Create multiple columns in the html file.
+% Usage: \begin{htmlColumns}{# of columns} Text to be placed in columns \end{htmlColumns}
+\newenvironment{htmlColumns}[1]%
+{BeginColumns #1}%
+{EndColumns  \DrawHLine}
+
+% Wick contraction using "simplewick" package. Redefine simplewick's command "contraction" to work for html.
+\usepackage{simplewick}
+\let\oldContraction\contraction
+\renewcommand{\contraction}[5][5px]{%
+ \text{BeginWick}  #2 \text{StartWick}  #3 \text{MiddleWick}  #4 \text{FinishWick}  #5 \text{SizeWick} \text{#1} \text{EndWick}%
+}
+\newenvironment{simplewick}%
+{\text{BeginSimpleWick}}%
+{\text{EndSimpleWick}}
+
+% Wick contraction using Dan Schroeder Macros.
+\newcommand{\beC}[2]{%
+\text{BeginSchroederWick} \text{StartWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
+}
+\newcommand{\coC}[1]{%
+\text{BeginSchroederWick} \text{MiddleWick} #1 \text{EndSchroederWick}%
+}
+\newcommand{\enC}[2]{%
+\text{BeginSchroederWick} \text{FinishWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
+}
+

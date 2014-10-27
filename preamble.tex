@@ -1,0 +1,60 @@
+% ------------------------------ preamble.tex ------------------------------
+
+% If you'll be writing directly in tex, then place 
+%\input{preamble.tex}
+%\input{html_commands.tex}
+%  (in this order!) after
+%\documentclass[12pt]{article}
+% and before
+%\begin{document}
+
+% If you'll be writing in Lyx, then place 
+%\input{preamble.tex}
+%\input{html_commands.tex}
+% (in this order!) in the Lyx preamble. Lyx likes to add a bunch of other packages. Many times those are not needed, other times those packages will be repeating the packages given below. You can mostly ignore that aspect (or if you prefer you can comment out repeating packages below).
+
+
+% Useful packages (some of these are important, don't remove them unless you know what you're doing)
+\usepackage{amsmath}
+%\usepackage{amssymb} % generally included automatically by Lyx as well (In that case you may comment it out or just leave it).
+\usepackage{xr-hyper} 
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{color}
+\usepackage{ragged2e}
+\usepackage{hyperref} 
+\usepackage{dsfont}
+\usepackage{braket}
+%\usepackage{ulem} % generally included automatically by Lyx.
+\usepackage{axodraw4j} %for Feynman diagrams using Jaxodraw
+%\usepackage{pstricks}
+\usepackage{wasysym}
+%\usepackage{marvosym}
+
+
+% General short commands that I find useful (personal preference)
+\newcommand\zbar{\overline{z}}
+\newcommand\arr{\rightarrow}
+\newcommand\tab{$\qquad$}
+
+% Change style of section numbering (based on personal preference)
+\renewcommand{\thesection}{\Roman{section}.}
+\renewcommand{\thesubsection}{\arabic{subsection}.}
+\renewcommand{\thesubsubsection}{\arabic{subsection}.\arabic{subsubsection}.}
+
+
+% Lyx \ensuremath (Lyx generates the \ensuremath command that is not recognized by the programs. Renaming it as follows solves the problem.)
+\renewcommand{\ensuremath}[1]{$#1$}
+
+\setlength{\parindent}{0.25in}
+
+% ------- Set depth for the table of contents -------
+\setcounter{tocdepth}{2}
+%
+%% Feynman diagrams
+%\usepackage{braket}
+%\usepackage{feyn}
+%\renewcommand{\xymatrix}{\Diagram}
+%\global\long\def\mom#1#2{\momentum{#1}{#2}}
+%\global\long\def\vlup#1{\vertexlabel^{{#1}}}
+%\global\long\def\vldown#1{\vertexlabel_{{#1}}}
