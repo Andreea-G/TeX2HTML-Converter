@@ -206,6 +206,9 @@ int HtmlFile::Toggles() {
 }
 
 int HtmlFile::Alerts() {
+	//Include yui link
+	(void) RE2::GlobalReplace(&contents_, "</head>" ,"<link rel=\"stylesheet\" type=\"text/css\" href=\"http://yui.yahooapis.com/2.4.1/build/container/assets/container.css\">\n</head>");
+
 	//Start all Alerts
 	string dummy;
 	string alertText;
