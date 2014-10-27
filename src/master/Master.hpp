@@ -21,7 +21,7 @@ public:
 	string get_html_contents() const { return html_file_.get_contents(); }
 	string get_css_contents() const { return css_file_.get_contents(); }
 
-	int MainRun();
+	int MainRun(const char* js_filename);
 
 	static int ParseArgsAndExecute(int argc, char* argv[]);
 

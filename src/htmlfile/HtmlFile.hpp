@@ -18,7 +18,7 @@ public:
 	HtmlFile(const string html_contents) : contents_(html_contents) {}
 	string get_contents() const { return contents_; }
 
-	int ProcessFile();
+	int ProcessFile(const char* js_script);
 
 private:
 	//file contents for the html file
@@ -28,7 +28,7 @@ private:
 	//Initial file clean up
 	void CleanUp();
 	//Include all scripts from file "javascripts.html"
-	int IncludeJavaScripts ();
+	int IncludeJavaScripts (const char* js_filename);
 	//Make n columns, total width equal to MAX_WIDTH in. The number of columns is specified in the tex file.
 		//To modify max width change MAX_WIDTH in globals.
 		//For US Letter Landscape set MAX_WIDTH to 11.

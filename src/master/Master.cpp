@@ -20,14 +20,16 @@ Master::Master(const string html_contents, const string css_contents) :
 int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 
 	const char *infile = argv[1], *outfile = argv[2], *cssfile = argv[3];
-
+	char *executable_dir = argv[4];
 	try {
 		string html_contents = globals::get_file_contents(infile);
 		string css_contents = globals::get_file_contents(cssfile);
 
 		Master master_process(html_contents, css_contents);
 
-		int exit_status = master_process.MainRun();
+		char *js_file = strcat(executable_dir, "javascripts.html");
+		cout << js_file << endl;
+		int exit_status = master_process.MainRun(js_file);
 		if (exit_status < 0) {
 			return -1;
 		}
@@ -53,8 +55,8 @@ int Master::ParseArgsAndExecute(int argc, char* argv[]) {
 }
 
 
-int Master::MainRun() {
-	int exit_status = html_file_.ProcessFile();
+int Master::MainRun(const char* js_filename) {
+	int exit_status = html_file_.ProcessFile(js_filename);
 	if (exit_status < 0) {
 		return -1;
 	}

@@ -13,9 +13,9 @@
 
 using namespace std;
 
-int HtmlFile::ProcessFile() {
+int HtmlFile::ProcessFile(const char* js_filename) {
 	CleanUp();
-	int exit_status = IncludeJavaScripts();
+	int exit_status = IncludeJavaScripts(js_filename);
 	if (exit_status < 0) {
 		cerr << "Error in HtmlFile::IncludeJavaScripts\n";
 		return -1;
@@ -61,14 +61,14 @@ void HtmlFile::CleanUp() {
 }
 
 
-int HtmlFile::IncludeJavaScripts () {
+int HtmlFile::IncludeJavaScripts (const char* js_filename) {
 	try{
-		string script = globals::get_file_contents("javascripts.html");
+		string script = globals::get_file_contents(js_filename);
 		re2::StringPiece re2Script(script);
 		(void) RE2::Replace(&contents_, "</script>", re2Script);
 		return 0;
 	} catch (int &e) {
-		cout << "Error reading javascript file. Do you have a file called javascripts.html??. Errno " << e << "\n";
+		cout << "Error reading javascript file. Do you have a file called javascripts.html? Errno " << e << "\n";
 	}
 	return -1; //program shouldn't reach here
 }
