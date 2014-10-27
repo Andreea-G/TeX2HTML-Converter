@@ -6,7 +6,7 @@ INFILE=$FILE.xht
 OUTFILE=$FILE.html
 CSSFILE=$FILE.css
 CSSFILE1=$FILE'_1'.css
-INSTALLDIR=${HOME}/Dropbox/Courses/LyxtoHtml/tex2html/
+INSTALLDIR=${HOME}/.tex2html/
 
 echo $TEXFILE
 echo $INFILE
@@ -26,7 +26,7 @@ fi
 
 echo
 echo "--- Running xht2html ---"
-./xht2html $INFILE $OUTFILE $CSSFILE $INSTALLDIR
+xht2html $INFILE $OUTFILE $CSSFILE $INSTALLDIR
 
 
 echo Done.
