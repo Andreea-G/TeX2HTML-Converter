@@ -213,8 +213,6 @@ int HtmlFile::Alerts() {
 	string dummy;
 	string alertText;
 	while (RE2::PartialMatch(contents_, "BeginAlert(\\s)([\\s\\S]*?)(\\s)AlertOnClick", &dummy, &alertText)) {
-		cout << "Alert:\n";
-		cout << alertText << "\n";
 		(void) RE2::GlobalReplace(&alertText, "\"", "\\\\\\\\'"); //yup, 8 of them!
 			//The string parser removes half, regex removes half of what's left,
 			//and we also repeat the operation when inserting alertText into contents...
