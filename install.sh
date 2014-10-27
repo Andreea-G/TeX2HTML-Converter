@@ -10,6 +10,30 @@ message_if_failed() {
     fi
 }
 
+command -v g++ >/dev/null 2>&1 && has_gpp=true || has_gpp=false
+if [ "$has_gpp" = false ]; then
+	echo -e "\n"
+	read -p "You need g++ to continue, would you like to install it? (y/n)  " user_input
+	case $user_input in
+		[Yy]* )
+			#TODO: check for root priveledges here
+			apt-get --yes install g++
+			message_if_failed "Failed to install g++.  Major bummer, dude!"
+			;;
+		[Nn]* )
+        		echo "Ok, fine!  Be that way.  I never liked you anyway.  You can install g++ on your own."
+			echo "Exitting..."
+			exit 4
+			;;
+	        * )
+			echo "Input not understood.  Please type 'y' or 'n' next time."
+			echo "Exitting..."
+			exit 5
+			;;
+	esac
+fi
+
+command -v git >/dev/null 2>&1 && has_git=true || has_git=false
 command -v mk4ht >/dev/null 2>&1 && has_mk4ht=true || has_mk4ht=false
 command -v hg >/dev/null 2>&1 && has_hg=true || has_hg=false
 echo "#include <re2/re2.h>" > delete_this__checking_for_re2_header.h 
@@ -31,32 +55,34 @@ fi
 if [ "$has_re2_header" = false ]; then
 	programs_to_install="${programs_to_install} re2"
 fi
-
+if [ "$has_git" = false ]; then
+	programs_to_install="${programs_to_install} git"
+fi
 
 if [ "$programs_to_install" != "" ]; then
-	echo "The following dependencies are not met: $programs_to_install"
+	echo -e "\n\nThe following dependencies are not met: $programs_to_install"
 	read -p "Would you like to install them now? (y/n)  " user_input
-    case $user_input in
-        [Yy]* )
-		#TODO: check for root priveledges here
-		echo "Installing programs...  YAYYY!"
-		;;
-        [Nn]* )
-        	echo "Ok, fine!  Be that way.  I never liked you anyway.  You can reinstall those programs manually and rerun this script."
-		echo "Exitting..."
-		exit 4
-		;;
-        * )
-		echo "Input not understood.  Please type 'y' or 'n' next time."
-		echo "Exitting..."
-		exit 5
-		;;
-    esac
+	case $user_input in
+		[Yy]* )
+			#TODO: check for root priveledges here
+			echo "Installing programs...  YAYYY!"
+			;;
+		[Nn]* )
+        		echo "Ok, fine!  Be that way.  I never liked you anyway.  You can reinstall those programs manually and rerun this script."
+			echo "Exitting..."
+			exit 4
+			;;
+	        * )
+			echo "Input not understood.  Please type 'y' or 'n' next time."
+			echo "Exitting..."
+			exit 5
+			;;
+	esac
 fi
 
 if [ "$has_re2_header" = "false" ]; then
 	if [ "$has_hg" = "false" ]; then
-		apt-get install mercurial #TODO: platform independence
+		apt-get --yes install mercurial #TODO: platform independence
 		message_if_failed "Failed to install mercurial!"
 	fi
 	hg clone https://re2.googlecode.com/hg ${HOME}/.temporary_re2
@@ -69,16 +95,19 @@ if [ "$has_re2_header" = "false" ]; then
 	sed -i -e 's/f.FirstMatch/\/\/f.FirstMatch/g' testinstall.cc
 	make testinstall
 	popd
-#	\rm .temporary_re2
+	\rm .temporary_re2
 	# update dynamic linker
 	ldconfig
 fi
 
 if [ "$has_mk4ht" = "false" ]; then
-	apt-get install tex4ht  #TODO: make platform indepedent
+	apt-get --yes install tex4ht  #TODO: make platform indepedent
 	message_if_failed "Failed to install tex4ht.  Major bummer, dude!"
 fi
-
+if [ "$has_git" = "false" ]; then
+	apt-get --yes install git  #TODO: make platform indepedent
+	message_if_failed "Failed to install git.  Major bummer, dude!"
+fi
 
 if [ -d  $install_dir ]; then
 	echo >&2 "The folder $install_dir already exists!  Whhoaaa boy!  Please delete it first and try reinstalling."
@@ -96,7 +125,7 @@ popd
 
 
 # We now add the executable to the user's path
-cat >> ${HOME}/.profile << END
+cat >> ${HOME}/.bashrc << END
 
 # Allow user to execute tex2html from anywhere (this block was added by tex2html's install script)
 if [ -d "$install_dir" ] ; then
@@ -104,10 +133,9 @@ if [ -d "$install_dir" ] ; then
 fi
 
 END
-# source the .profile so we don't have to log out and back in
-source ${HOME}/.profile
 
 
 
-echo "Done!"
+
+echo "Done!  Please restart your terminal to begin using the program."
 
