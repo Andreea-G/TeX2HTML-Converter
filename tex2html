@@ -1,33 +1,39 @@
 #!/bin/bash
 
-TEXFILE=$1
+FILEWPATH=$1
+FILEDIR=./$(echo $FILEWPATH | sed 's/\/[^\/]*\.tex//')
+TEXFILE=$(echo $FILEWPATH | sed 's/.*\///')
 FILE=${TEXFILE%.tex}
+
 INFILE=$FILE.xht
 OUTFILE=$FILE.html
 CSSFILE=$FILE.css
 CSSFILE1=$FILE'_1'.css
-INSTALLDIR=${HOME}/.tex2html/
 
-echo $TEXFILE
-echo $INFILE
-echo $CSSFILE
-echo $CSSFILE1
+INSTALLDIR=${HOME}/.tex2html
+INSTALLDIRSLASH=$INSTALLDIR/
 
-RERUNMK4HT=0
+pushd $FILEDIR
+
+RERUNMK4HT=1
 if [ $RERUNMK4HT -eq 1 ]; then
   echo "--- Running mk4ht ---"
+  cp $INSTALLDIR/preamble.tex ./preamble.tex
+  cp $INSTALLDIR/html_commands.tex ./html_commands.tex
+  cp $INSTALLDIR/pdf_commands.tex ./pdf_commands.tex
   mk4ht mzlatex $TEXFILE "html,mathplayer" #> /dev/null
   cp $CSSFILE $CSSFILE1  #store for backup later
   # Clean up
-  \rm $FILE.4ct $FILE.4tc $FILE.dvi $FILE.idv $FILE.lg $FILE.tmp $FILE.xref #Do not delete $FILE.toc, or the contents will not appear!
+  \rm $FILE.aux $FILE.4ct $FILE.4tc $FILE.dvi $FILE.idv $FILE.lg $FILE.log $FILE.tmp $FILE.xref #Do not delete $FILE.toc, or the contents will not appear!
 else
   cp $CSSFILE1 $CSSFILE
 fi
 
 echo
 echo "--- Running xht2html ---"
-xht2html $INFILE $OUTFILE $CSSFILE $INSTALLDIR
+xht2html $INFILE $OUTFILE $CSSFILE $INSTALLDIRSLASH
 
+popd 
 
 echo Done.
 

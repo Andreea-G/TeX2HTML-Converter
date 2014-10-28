@@ -135,7 +135,5 @@ fi
 END
 
 
-
-
-echo "Done!  Please restart your terminal to begin using the program."
+echo "\nDone!  Please restart your terminal to begin using the program!\n"
 

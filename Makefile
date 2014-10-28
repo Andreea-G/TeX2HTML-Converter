@@ -59,12 +59,4 @@ CssFile.o: src/cssfile/CssFile.cpp src/cssfile/CssFile.hpp \
 Globals.o: src/Globals.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o Globals.o src/Globals.cpp
 
-####### Install
-
-install:   FORCE
-
-uninstall:   FORCE
-
-FORCE:
-
 
