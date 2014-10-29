@@ -60,7 +60,7 @@ git clone https://bitbucket.org/Andreea_G/tex2html.git .tex2html
 cd .tex2html
 make
 
-Finally, you need to add the executable to the user's path, so that you can run the program from any folder. In Linux, you can do this by typing in a terminal
+Finally, you need to add the executable to the user's path, so that you can run the program from any folder. For instance in Linux, you can do this by typing in a terminal
 
 install_dir=${HOME}/.tex2html
 cat >> ${HOME}/.bashrc << END
@@ -75,7 +75,7 @@ and then restarting the terminal.
 
 --- Usage --- 
 
-There are 4 different options you can choose from. First, can choose to work either in LyX or in LaTeX. Then, you can convert your .lyx or .tex document to either a .html or a .pdf. This is achieved by opening a terminal and typing either one of the following:
+There are 4 different options you can choose from. First, you can choose to work either in LyX or in LaTeX. Then, you can convert your .lyx or .tex document to either a .html or a .pdf. This is achieved by opening a terminal and typing either one of the following:
 tex2html <file>.tex
 tex2pdf <file>.tex
 lyx2html <file>.lyx
