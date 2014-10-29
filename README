@@ -31,9 +31,9 @@ In order to use the program, you will need the following programs and libraries:
 
  - g++
 
- - TeX4ht: http://access2science.com/latex/tutorial_txht.xhtml
+ - [TeX4ht](http://access2science.com/latex/tutorial_txht.xhtml)
 
- - RE2 library for regular expressions: https://code.google.com/p/re2/wiki/Install?tm=4
+ - [RE2 library](https://code.google.com/p/re2/wiki/Install?tm=4) for regular expressions 
 
  - LyX (optional, if you prefer to write in LyX rather than directly in LaTeX)
 
@@ -91,7 +91,7 @@ Finally, you need to add the executable to the user's path, so that you can run 
 and then restarting the terminal.
 
 
---- Usage --- 
+### Usage
 
 There are 4 different options you can choose from. First, you can choose to work either in LyX or in LaTeX. Then, you can convert your .lyx or .tex document to either a .html or a .pdf. This is achieved by opening a terminal and typing either one of the following:
 
@@ -104,24 +104,17 @@ The <file> is the name of the file including the file path relative to the curre
 
  If you'll be writing directly in tex, then place 
 
-\input{preamble.tex} 
-
-\input{html_commands.tex} 
-
-  (in this order!) after 
-
-\documentclass[12pt]{article} 
- 
- and before 
- 
+\input{preamble.tex}  
+\input{html_commands.tex}  
+    (in this order!) after  
+\documentclass[12pt]{article}  
+ and before  
 \begin{document}
 
 If you'll be writing in Lyx, then place 
 
-\input{preamble.tex}
-
-\input{html_commands.tex}
-
+\input{preamble.tex}  
+\input{html_commands.tex}  
  (in this order!) in the Lyx preamble. 
 
 To see what new LaTeX commands and environments you can use (for videos, toggles, alerts etc), have a look at the files preamble.tex, html_commands.tex, and pdf_commands.tex for a full description.
