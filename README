@@ -28,23 +28,28 @@ In addition, several aspects are improved, including:
 --- Installation ---
 
 In order to use the program, you will need the following programs and libraries:
+
  - g++
+
  - TeX4ht: http://access2science.com/latex/tutorial_txht.xhtml
+
  - RE2 library for regular expressions: https://code.google.com/p/re2/wiki/Install?tm=4
+
  - LyX (optional, if you prefer to write in LyX rather than directly in LaTeX)
 
 You may install the program in two ways:
 
-Option 1. Download the script install.sh anywhere on your computer. Then open a terminal, navigate to the file where you downloaded the script, and run:
-chmod +x ./install.sh
-sudo ./install.sh
+Option 1.
+Download the script install.sh anywhere on your computer. Then open a terminal, navigate to the file where you downloaded the script, and run:
+> chmod +x ./install.sh
+> sudo ./install.sh
 (Yes, you will need sudo!)
 
-Now restart the terminal. 
+Now restart the terminal to use the program. 
 
 That's it, if everything worked well then you're done!! :)
 
-As of now, the script has been tested for Linux only. I will extend it for Mac OS in the (very) near future.
+As of now, the script has been tested for Ubuntu only. I will extend it for Mac OS in the (very) near future.
 No attempts have been made to make this work on Windows, but you're welcome to try following option 2 below.
 
 
