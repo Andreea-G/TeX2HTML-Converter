@@ -10,13 +10,18 @@ message_if_failed() {
     fi
 }
 
+# Test if g++ is installed. 
 command -v g++ >/dev/null 2>&1 && has_gpp=true || has_gpp=false
 if [ "$has_gpp" = false ]; then
 	echo -e "\n"
 	read -p "You need g++ to continue, would you like to install it? (y/n)  " user_input
 	case $user_input in
 		[Yy]* )
-			#TODO: check for root priveledges here
+			#check for root priveledges here
+			if [ "$(whoami)" != "root" ]; then 
+				echo "Please run this script with sudo, or you can't install the programs!"; 
+				exit 3
+			fi
 			apt-get --yes install g++
 			message_if_failed "Failed to install g++.  Major bummer, dude!"
 			;;
@@ -33,6 +38,7 @@ if [ "$has_gpp" = false ]; then
 	esac
 fi
 
+# Test if any of git, tex4ht, Mercurial, and RE2 are missing
 command -v git >/dev/null 2>&1 && has_git=true || has_git=false
 command -v mk4ht >/dev/null 2>&1 && has_mk4ht=true || has_mk4ht=false
 command -v hg >/dev/null 2>&1 && has_hg=true || has_hg=false
@@ -64,7 +70,11 @@ if [ "$programs_to_install" != "" ]; then
 	read -p "Would you like to install them now? (y/n)  " user_input
 	case $user_input in
 		[Yy]* )
-			#TODO: check for root priveledges here
+			#check for root priveledges 
+			if [ "$(whoami)" != "root" ]; then 
+				echo "Please run this script with sudo, or you can't install the programs!"; 
+				exit 3
+			fi
 			echo "Installing programs...  YAYYY!"
 			;;
 		[Nn]* )
@@ -87,11 +97,11 @@ if [ "$has_re2_header" = "false" ]; then
 	fi
 	hg clone https://re2.googlecode.com/hg ${HOME}/.temporary_re2
 	pushd ${HOME}/.temporary_re2
-	# TODO: explain bug
+	# This is RE2's first bug. We need to add -pthread to LDFLAGS in Makefile. See https://code.google.com/p/re2/issues/detail?id=100
 	sed -i -e 's/LDFLAGS?=/LDFLAGS?= -pthread/g' Makefile
 	make test
 	make install 
-	# re2 has an unresolved bug. This is a workaround until it gets fixed.   #TODO: provide link to the bug
+	# This is RE2's second bug. This is a workaround until they fix it properly. See https://code.google.com/p/re2/issues/detail?id=100
 	sed -i -e 's/f.FirstMatch/\/\/f.FirstMatch/g' testinstall.cc
 	make testinstall
 	popd
@@ -110,8 +120,8 @@ if [ "$has_git" = "false" ]; then
 fi
 
 if [ -d  $install_dir ]; then
-	echo >&2 "The folder $install_dir already exists!  Whhoaaa boy!  Please delete it first and try reinstalling."
-	exit 3
+	echo >&2 "The folder $install_dir already exists!  Please delete it first and try reinstalling."
+	exit 6
 fi
 
 echo "Downloading tex2html..."
@@ -133,8 +143,6 @@ if [ -d "$install_dir" ] ; then
 fi
 
 END
-
-
 
 
 echo "Done!  Please restart your terminal to begin using the program."
