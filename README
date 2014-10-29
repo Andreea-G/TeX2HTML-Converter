@@ -5,15 +5,23 @@ TeX and LyX files to HTML
 This program converts entire (La)TeX and LyX documents into HTML. The goal is to produce scientific documents (books, papers, lecture notes) that are interactive (by contrast to pdf files which are entirely static).
 
 The program uses TeX4ht, but with added and improved functionalities. In particular, new commands and environments are defined to allow for:
+
 - Including videos via the \includevideo command, similarly to how \includegraphics is used for figures
+
 - Toggle content: The reader can decide to hide or show a specific section, a detailed proof of a theorem etc (that would have otherwise been placed in an appendix).
+
 - Alert boxes: Offering the option to click on a specific part of the text (or equation) in order to see a more detailed explanation.
+
 - Multiple columns in the document.
+
 - Fulljustify environment
 
 In addition, several aspects are improved, including:
+
 - The equations are re-aligned, with the equation labels correctly placed at the same level and at the end of the line.
+
 - Indentations following equations are corrected
+
 - Some mathematical characters are replaced with characters that better resemble what they look like in corresponding pdf files.
 
 
@@ -97,16 +105,3 @@ The <file> is the name of the file including the file path relative to the curre
  (in this order!) in the Lyx preamble. 
 
 To see what new LaTeX commands and environments you can use (for videos, toggles, alerts etc), have a look at the files preamble.tex, html_commands.tex, and pdf_commands.tex for a full description.
-
-
-
-
-
-
-
-
-
-
-
-
-
