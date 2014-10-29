@@ -41,13 +41,13 @@ You may install the program in two ways:
 
 #### Option 1. 
 
-Download the script install.sh anywhere on your computer. Then open a terminal, navigate to the file where you downloaded the script, and run:
+Download the script install.sh anywhere on your computer. Then open a terminal, navigate to the folder where you downloaded the script, and run:
 
     chmod +x ./install.sh
     sudo ./install.sh
 (Yes, you will need sudo!)
 
-Now restart the terminal. 
+Now restart the terminal in order to use the program. 
 
 That's it, if everything worked well then you're done!! :)
 
@@ -58,6 +58,7 @@ No attempts have been made to make this work on Windows, but you're welcome to t
 #### Option 2. 
 
 Manually install the programs listed above.
+
 Note! RE2 has two currently known bugs which you will need to fix. In order to install it properly, open a terminal and type the following:
 
     hg clone https://re2.googlecode.com/hg re2
@@ -68,7 +69,7 @@ Note! RE2 has two currently known bugs which you will need to fix. In order to i
     sed -i -e 's/f.FirstMatch/\/\/f.FirstMatch/g' testinstall.cc
     sudo make testinstall
 
-The first "sed" adds -pthread to LDFLAGS in Makefile. The second one comments out a line in testinstall.cc. The explanation for that can be found here: https://code.google.com/p/re2/issues/detail?id=100
+The first "sed" adds -pthread to LDFLAGS in Makefile. The second one comments out a line in testinstall.cc. The explanation for that can be found [here](https://code.google.com/p/re2/issues/detail?id=100).
 
 
 Now open a terminal and navigate to your home folder in order to download this program. Type
@@ -118,3 +119,4 @@ The <file> is the name of the file including the file path relative to the curre
 If you'll be writing in LyX, then place those same commands in the LyX preamble. 
 
 To see what new LaTeX commands and environments you can use (for videos, toggles, alerts etc), have a look at the files preamble.tex, html_commands.tex, and pdf_commands.tex for a full description.
+
