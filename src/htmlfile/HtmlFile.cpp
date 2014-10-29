@@ -164,13 +164,16 @@ int HtmlFile::IncludeVideos() {
 	string replacement, dummy;
 	//must have ogg format, otherwise Firefox will not work!
 	while (RE2::PartialMatch(contents_, "BeginVideo(\\s)((\\w|&#x02D9;)+).ogg([\\s\\S]*?)EndVideo", &dummy, &VideoName, &dummy)) {
-		//TODO: test if VideoName is empty
+		//test if VideoName is empty
+		if (VideoName.length() <= 0) {
+			cout << "Error, the name of the video file is empty!\n";
+			return -1;
+		}
 		(void) RE2::GlobalReplace(&VideoName, "&#x02D9;", "_");
 		replacement = "<video width=\"480\" height=\"360\" controls> <source src=\"" + VideoName + ".ogg\" type=\"video/ogg\"><source src=\"" + VideoName + ".mp4\" type=\"video/mp4\"> </video>";
 		re2::StringPiece re2Replacement(replacement);
 		(void) RE2::Replace(&contents_, "BeginVideo(\\s)((\\w|&#x02D9;)+).ogg((.|\\s)*?)EndVideo", re2Replacement);
 	}
-	//TODO test if any "BeginVideo...EndVideo" left.
 	return 0;
 }
 
