@@ -28,7 +28,7 @@ In order to use the program, you will need the following programs and libraries:
 You may install the program in two ways:
 
 Option 1. Download the script install.sh anywhere on your computer. Then open a terminal, navigate to the file where you downloaded the script, and run:
-sudo chmod u+x ./install.sh
+chmod +x ./install.sh
 sudo ./install.sh
 (Yes, you will need sudo!)
 

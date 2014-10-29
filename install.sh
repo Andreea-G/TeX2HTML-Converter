@@ -135,7 +135,8 @@ popd
 
 
 # We now add the executable to the user's path
-cat >> ${HOME}/.bashrc << END
+if [ "$(more ${HOME}/.bashrc | grep '.tex2html')" = "" ]; then 
+	cat >> ${HOME}/.bashrc << END
 
 # Allow user to execute tex2html, tex2pdf, lyx2html, lyx2pdf from anywhere (this block was added by tex2html's install script)
 if [ -d "$install_dir" ] ; then
@@ -143,7 +144,7 @@ if [ -d "$install_dir" ] ; then
 fi
 
 END
+fi
 
-
-echo "Done!  Please restart your terminal to begin using the program."
+echo -e "\nDone!  Please restart your terminal to begin using the program.\n"
 
