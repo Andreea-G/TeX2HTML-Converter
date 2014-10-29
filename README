@@ -104,17 +104,17 @@ The <file> is the name of the file including the file path relative to the curre
 
  If you'll be writing directly in tex, then place 
 
-\input{preamble.tex}  
-\input{html_commands.tex}  
-    (in this order!) after  
-\documentclass[12pt]{article}  
+>\input{preamble.tex}  
+\input{html_commands.tex}
+
+(in this order!) after  
+
+>\documentclass[12pt]{article}  
+
  and before  
-\begin{document}
 
-If you'll be writing in Lyx, then place 
+>\begin{document}
 
-\input{preamble.tex}  
-\input{html_commands.tex}  
- (in this order!) in the Lyx preamble. 
+If you'll be writing in LyX, then place those same commands in the LyX preamble. 
 
 To see what new LaTeX commands and environments you can use (for videos, toggles, alerts etc), have a look at the files preamble.tex, html_commands.tex, and pdf_commands.tex for a full description.
