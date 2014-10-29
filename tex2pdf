@@ -18,7 +18,7 @@ cp $INSTALLDIR''preamble.tex ./preamble.tex
 echo "--- Running pdflatex ---"
 
 #--- For pdflatex: ---
-pdflatex $FILE -interaction=nonstopmode '%source' > /dev/null	
+pdflatex $FILE -interaction=nonstopmode  #> /dev/null	
 #--- For latex -> dvips -> ps2pdf: ---
 #latex $FILE -interaction=nonstopmode '%source' #> /dev/null		
 #dvips -P pdf $FILE.dvi > /dev/null		
