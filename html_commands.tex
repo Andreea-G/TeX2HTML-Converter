@@ -62,7 +62,7 @@ EndVideo
 % Alert environment
 % Usage: \begin{htmlAlert}{Alert contents} Stuff to click on \end{htmlAlert}
 % Examples may include math, links, text of several lines etc:
-%\begin{htmlAlert}{\href{myhtml7.html}{Url} } Click here! \end{htmlAlert} \\
+%\begin{htmlAlert}{\href{myhtml.html}{Url} } Click here! \end{htmlAlert} \\
 %\begin{htmlAlert}{\href{http://www.google.com}{Google!} } Click here! \end{htmlAlert} \\
 %\begin{htmlAlert}{Some text\\ some more boldsymbol $\boldsymbol{x}\boldsymbol{y}$  \\ and more and more and more and more and more and more and more and more and more and more and more and more and more } Click me! \end{htmlAlert} \\
 %\begin{htmlAlert}{$x^\mu\arr x\prime^\mu$} Click me too! \end{htmlAlert} \\
@@ -81,24 +81,25 @@ EndVideo
 {BeginColumns #1}%
 {EndColumns  \DrawHLine}
 
-% Wick contraction using "simplewick" package. Redefine simplewick's command "contraction" to work for html.
-\usepackage{simplewick}
-\let\oldContraction\contraction
-\renewcommand{\contraction}[5][5px]{%
- \text{BeginWick}  #2 \text{StartWick}  #3 \text{MiddleWick}  #4 \text{FinishWick}  #5 \text{SizeWick} \text{#1} \text{EndWick}%
-}
-\newenvironment{simplewick}%
-{\text{BeginSimpleWick}}%
-{\text{EndSimpleWick}}
-
-% Wick contraction using Dan Schroeder Macros.
-\newcommand{\beC}[2]{%
-\text{BeginSchroederWick} \text{StartWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
-}
-\newcommand{\coC}[1]{%
-\text{BeginSchroederWick} \text{MiddleWick} #1 \text{EndSchroederWick}%
-}
-\newcommand{\enC}[2]{%
-\text{BeginSchroederWick} \text{FinishWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
-}
+%TODO: These are not added to the code yet. Will follow soon.
+% % Wick contraction using "simplewick" package. Redefine simplewick's command "contraction" to work for html.
+% \usepackage{simplewick}
+% \let\oldContraction\contraction
+% \renewcommand{\contraction}[5][5px]{%
+%  \text{BeginWick}  #2 \text{StartWick}  #3 \text{MiddleWick}  #4 \text{FinishWick}  #5 \text{SizeWick} \text{#1} \text{EndWick}%
+% }
+% \newenvironment{simplewick}%
+% {\text{BeginSimpleWick}}%
+% {\text{EndSimpleWick}}
+% 
+% % Wick contraction using Dan Schroeder Macros.
+% \newcommand{\beC}[2]{%
+% \text{BeginSchroederWick} \text{StartWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
+% }
+% \newcommand{\coC}[1]{%
+% \text{BeginSchroederWick} \text{MiddleWick} #1 \text{EndSchroederWick}%
+% }
+% \newcommand{\enC}[2]{%
+% \text{BeginSchroederWick} \text{FinishWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
+% }
 
