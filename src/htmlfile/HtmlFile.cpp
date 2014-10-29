@@ -163,7 +163,7 @@ int HtmlFile::IncludeVideos() {
 	string VideoName("");
 	string replacement, dummy;
 	//must have ogg format, otherwise Firefox will not work!
-	while (RE2::PartialMatch(contents_, "BeginVideo(\\s)((\\w|&#x02D9;)+).ogg([\\s\\S]*?)EndVideo", &dummy, &VideoName, &dummy)) {
+	while (RE2::PartialMatch(contents_, "BeginVideo(\\s)((\\w|&#x02D9;)*).ogg([\\s\\S]*?)EndVideo", &dummy, &VideoName, &dummy)) {
 		//test if VideoName is empty
 		if (VideoName.length() <= 0) {
 			cout << "Error, the name of the video file is empty!\n";
