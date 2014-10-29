@@ -1,0 +1,18 @@
+#!/bin/bash
+
+FILEWPATH=$1
+FILEDIR=./$(echo $FILEWPATH | sed 's/[^\/]*\.lyx//')
+LYXFILE=$(echo $FILEWPATH | sed 's/.*\///')
+FILE=${LYXFILE%.lyx}
+TEXFILE=$FILE.tex
+
+pushd $FILEDIR
+
+echo "--- Exportig Lyx ---"
+#/Applications/LyX.app/Contents/MacOS/lyx --export latex tex $LYXFILE
+lyx --export latex tex $LYXFILE
+
+popd
+
+tex2html $FILEDIR$TEXFILE
+

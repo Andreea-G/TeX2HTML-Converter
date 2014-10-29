@@ -1,0 +1,34 @@
+#!/bin/bash
+
+FILEWPATH=$1
+FILEDIR=./$(echo $FILEWPATH | sed 's/[^\/]*\.tex//')
+TEXFILE=$(echo $FILEWPATH | sed 's/.*\///')
+FILE=${TEXFILE%.tex}
+
+PDFFILE=$FILE.pdf
+INSTALLDIR=${HOME}/.tex2html/
+
+echo $INSTALLDIR''html_commands.tex
+
+pushd $FILEDIR
+
+cat $INSTALLDIR''html_commands.tex $INSTALLDIR''pdf_commands.tex > ./html_commands.tex
+cp $INSTALLDIR''preamble.tex ./preamble.tex
+
+echo "--- Running pdflatex ---"
+
+#--- For pdflatex: ---
+pdflatex $FILE -interaction=nonstopmode '%source' > /dev/null	
+#--- For latex -> dvips -> ps2pdf: ---
+#latex $FILE -interaction=nonstopmode '%source' #> /dev/null		
+#dvips -P pdf $FILE.dvi > /dev/null		
+#ps2pdf $FILE.ps > /dev/null		
+#---
+
+# Clean up
+\rm $FILE.aux $FILE.log $FILE.out
+
+popd 
+
+echo Done.
+

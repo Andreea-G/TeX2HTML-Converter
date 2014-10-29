@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FILEWPATH=$1
-FILEDIR=./$(echo $FILEWPATH | sed 's/\/[^\/]*\.tex//')
+FILEDIR=./$(echo $FILEWPATH | sed 's/[^\/]*\.tex//')
 TEXFILE=$(echo $FILEWPATH | sed 's/.*\///')
 FILE=${TEXFILE%.tex}
 
@@ -10,17 +10,18 @@ OUTFILE=$FILE.html
 CSSFILE=$FILE.css
 CSSFILE1=$FILE'_1'.css
 
-INSTALLDIR=${HOME}/.tex2html
-INSTALLDIRSLASH=$INSTALLDIR/
+INSTALLDIR=${HOME}/.tex2html/
 
 pushd $FILEDIR
+
+echo $INSTALLDIR''preamble.tex
 
 RERUNMK4HT=1
 if [ $RERUNMK4HT -eq 1 ]; then
   echo "--- Running mk4ht ---"
-  cp $INSTALLDIR/preamble.tex ./preamble.tex
-  cp $INSTALLDIR/html_commands.tex ./html_commands.tex
-  cp $INSTALLDIR/pdf_commands.tex ./pdf_commands.tex
+  cp $INSTALLDIR''preamble.tex ./preamble.tex
+  cp $INSTALLDIR''html_commands.tex ./html_commands.tex
+  #cp $(INSTALLDIR)pdf_commands.tex ./pdf_commands.tex
   mk4ht mzlatex $TEXFILE "html,mathplayer" #> /dev/null
   cp $CSSFILE $CSSFILE1  #store for backup later
   # Clean up
@@ -31,7 +32,7 @@ fi
 
 echo
 echo "--- Running xht2html ---"
-xht2html $INFILE $OUTFILE $CSSFILE $INSTALLDIRSLASH
+xht2html $INFILE $OUTFILE $CSSFILE $INSTALLDIR
 
 popd 
 
