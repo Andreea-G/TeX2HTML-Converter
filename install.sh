@@ -137,7 +137,7 @@ if [ -d  $install_dir ]; then
 fi
 
 echo "Downloading tex2html..."
-git clone https://bitbucket.org/Andreea_G/tex2html.git $install_dir
+git clone https://github.com/Andreea-G/Tex2html-Converter.git $install_dir
 message_if_failed "Failed to download tex2html..."
 pushd $install_dir
 echo "Installing..."

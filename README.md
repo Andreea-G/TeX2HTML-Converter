@@ -41,7 +41,7 @@ You may install the program in two ways:
 
 #### Option 1. 
 
-Download the script install.sh anywhere on your computer. Then open a terminal, navigate to the folder where you downloaded the script, and run:
+Download the script [install.sh](https://raw.githubusercontent.com/Andreea-G/Tex2html-Converter/master/install.sh) anywhere on your computer. Then open a terminal, navigate to the folder where you downloaded the script, and run:
 
     chmod +x ./install.sh
     sudo ./install.sh
@@ -75,7 +75,7 @@ The first "sed" adds -pthread to LDFLAGS in Makefile. The second one comments ou
 Now open a terminal and navigate to your home folder in order to download this program. Type
 
     cd
-    git clone https://bitbucket.org/Andreea_G/tex2html.git .tex2html
+    git clone https://github.com/Andreea-G/Tex2html-Converter.git
     cd .tex2html
     make
 
