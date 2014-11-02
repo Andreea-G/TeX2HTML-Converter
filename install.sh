@@ -19,14 +19,14 @@ if [ "$has_gpp" = false ]; then
 		[Yy]* )
 			#check for root priveledges here
 			if [ "$(whoami)" != "root" ]; then 
-				echo "Please run this script with sudo, or you can't install the programs!"; 
+				echo "Permission denied.  Please run this script with sudo, or you can't install the programs!"; 
 				exit 3
 			fi
 			apt-get --yes install g++
-			message_if_failed "Failed to install g++.  Major bummer, dude!"
+			message_if_failed "Failed to install g++.  Major bummer! Please try to install it yourself and then rerun this script."
 			;;
 		[Nn]* )
-        		echo "Ok, fine!  Be that way.  I never liked you anyway.  You can install g++ on your own."
+        		echo "Ok :( ... You can install g++ on your own."
 			echo "Exitting..."
 			exit 4
 			;;
@@ -78,7 +78,7 @@ if [ "$programs_to_install" != "" ]; then
 			echo "Installing programs...  YAYYY!"
 			;;
 		[Nn]* )
-        		echo "Ok, fine!  Be that way.  I never liked you anyway.  You can reinstall those programs manually and rerun this script."
+        		echo "Ok :( ...  You can install those programs manually and rerun this script."
 			echo "Exitting..."
 			exit 4
 			;;
@@ -95,28 +95,32 @@ if [ "$has_re2_header" = "false" ]; then
 		apt-get --yes install mercurial #TODO: platform independence
 		message_if_failed "Failed to install mercurial!"
 	fi
-	hg clone https://re2.googlecode.com/hg ${HOME}/.temporary_re2
-	pushd ${HOME}/.temporary_re2
+	re2_folder=.re2
+	hg clone https://re2.googlecode.com/hg ${HOME}/$re2_folder
+	pushd ${HOME}/$re2_folder
 	# This is RE2's first bug. We need to add -pthread to LDFLAGS in Makefile. See https://code.google.com/p/re2/issues/detail?id=100
 	sed -i -e 's/LDFLAGS?=/LDFLAGS?= -pthread/g' Makefile
+	echo -e "\n----- Running make test for re2 -----\n"
 	make test
+	echo -e "\n----- Running make install for re2 -----\n"
 	make install 
 	# This is RE2's second bug. This is a workaround until they fix it properly. See https://code.google.com/p/re2/issues/detail?id=100
 	sed -i -e 's/f.FirstMatch/\/\/f.FirstMatch/g' testinstall.cc
+	echo -e "\n----- Running make testinstall for re2 -----\n"
 	make testinstall
 	popd
-	\rm .temporary_re2
+#	\rm $re2_folder
 	# update dynamic linker
 	ldconfig
 fi
 
 if [ "$has_mk4ht" = "false" ]; then
 	apt-get --yes install tex4ht  #TODO: make platform indepedent
-	message_if_failed "Failed to install tex4ht.  Major bummer, dude!"
+	message_if_failed "Failed to install tex4ht.  Major bummer!  Please install tex4ht manually following the instructions found at http://access2science.com/latex/tutorial_txht.xhtml#x1-60002 and then rerun this script."
 fi
 if [ "$has_git" = "false" ]; then
 	apt-get --yes install git  #TODO: make platform indepedent
-	message_if_failed "Failed to install git.  Major bummer, dude!"
+	message_if_failed "Failed to install git.  Major bummer!  Please install tex4ht manually following the instructions found at http://git-scm.com/book/en/v2/Getting-Started-Installing-Git and then rerun this script."
 fi
 
 if [ -d  $install_dir ]; then
