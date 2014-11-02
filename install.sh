@@ -40,6 +40,7 @@ fi
 
 # Test if any of git, tex4ht, Mercurial, and RE2 are missing
 command -v git >/dev/null 2>&1 && has_git=true || has_git=false
+command -v latex >/dev/null 2>&1 && has_latex=true || has_latex=false
 command -v mk4ht >/dev/null 2>&1 && has_mk4ht=true || has_mk4ht=false
 command -v hg >/dev/null 2>&1 && has_hg=true || has_hg=false
 echo "#include <re2/re2.h>" > delete_this__checking_for_re2_header.h 
@@ -52,13 +53,16 @@ fi
 
 # Notify user if there are any missing dependencies
 programs_to_install=""
+if [ "$has_latex" = false ]; then
+	programs_to_install="${programs_to_install} texlive"
+fi
 if [ "$has_mk4ht" = false ]; then
 	programs_to_install="${programs_to_install} tex4ht"
+fi
+if [ "$has_re2_header" = false ]; then
 	if [ "$has_hg" = false ]; then
 		programs_to_install="${programs_to_install} mercurial"
 	fi
-fi
-if [ "$has_re2_header" = false ]; then
 	programs_to_install="${programs_to_install} re2"
 fi
 if [ "$has_git" = false ]; then
@@ -114,6 +118,10 @@ if [ "$has_re2_header" = "false" ]; then
 	ldconfig
 fi
 
+if [ "$has_latex" = "false" ]; then
+	apt-get --yes install texlive  #TODO: make platform indepedent
+	message_if_failed "Failed to install texlive.  Major bummer!  Please install texlive manually and then rerun this script."
+fi
 if [ "$has_mk4ht" = "false" ]; then
 	apt-get --yes install tex4ht  #TODO: make platform indepedent
 	message_if_failed "Failed to install tex4ht.  Major bummer!  Please install tex4ht manually following the instructions found at http://access2science.com/latex/tutorial_txht.xhtml#x1-60002 and then rerun this script."
