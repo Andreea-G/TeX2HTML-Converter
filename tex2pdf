@@ -14,6 +14,7 @@ pushd $FILEDIR
 
 cat $INSTALLDIR''html_commands.tex $INSTALLDIR''pdf_commands.tex > ./html_commands.tex
 cp $INSTALLDIR''preamble.tex ./preamble.tex
+cp $INSTALLDIR''xargs.sty ./xargs.sty
 
 echo "--- Running pdflatex ---"
 

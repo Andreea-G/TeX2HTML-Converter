@@ -21,6 +21,7 @@ if [ $RERUNMK4HT -eq 1 ]; then
   echo "--- Running mk4ht ---"
   cp $INSTALLDIR''preamble.tex ./preamble.tex
   cp $INSTALLDIR''html_commands.tex ./html_commands.tex
+  cp $INSTALLDIR''xargs.sty ./xargs.sty
   #cp $(INSTALLDIR)pdf_commands.tex ./pdf_commands.tex
   mk4ht mzlatex $TEXFILE "html,mathplayer" #> /dev/null
   cp $CSSFILE $CSSFILE1  #store for backup later
