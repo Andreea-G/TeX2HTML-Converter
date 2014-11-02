@@ -22,6 +22,7 @@ if [ "$has_gpp" = false ]; then
 				echo "Permission denied.  Please run this script with sudo, or you can't install the programs!"; 
 				exit 3
 			fi
+			echo -e "\n----- Installing g++ -----\n"
 			apt-get --yes install g++
 			message_if_failed "Failed to install g++.  Major bummer! Please try to install it yourself and then rerun this script."
 			;;
@@ -96,6 +97,7 @@ fi
 
 if [ "$has_re2_header" = "false" ]; then
 	if [ "$has_hg" = "false" ]; then
+		echo -e "\n----- Installing mercurial -----\n"
 		apt-get --yes install mercurial #TODO: platform independence
 		message_if_failed "Failed to install mercurial!"
 	fi
@@ -119,14 +121,17 @@ if [ "$has_re2_header" = "false" ]; then
 fi
 
 if [ "$has_latex" = "false" ]; then
+	echo -e "\n----- Installing texlive -----\n"
 	apt-get --yes install texlive  #TODO: make platform indepedent
 	message_if_failed "Failed to install texlive.  Major bummer!  Please install texlive manually and then rerun this script."
 fi
 if [ "$has_mk4ht" = "false" ]; then
+	echo -e "\n----- Installing tex4ht -----\n"
 	apt-get --yes install tex4ht  #TODO: make platform indepedent
 	message_if_failed "Failed to install tex4ht.  Major bummer!  Please install tex4ht manually following the instructions found at http://access2science.com/latex/tutorial_txht.xhtml#x1-60002 and then rerun this script."
 fi
 if [ "$has_git" = "false" ]; then
+	echo -e "\n----- Installing git -----\n"
 	apt-get --yes install git  #TODO: make platform indepedent
 	message_if_failed "Failed to install git.  Major bummer!  Please install tex4ht manually following the instructions found at http://git-scm.com/book/en/v2/Getting-Started-Installing-Git and then rerun this script."
 fi
@@ -136,7 +141,7 @@ if [ -d  $install_dir ]; then
 	exit 6
 fi
 
-echo "Downloading tex2html..."
+echo -e "\n----- Downloading tex2html -----\n"
 git clone https://github.com/Andreea-G/Tex2html-Converter.git $install_dir
 message_if_failed "Failed to download tex2html..."
 pushd $install_dir
