@@ -81,25 +81,3 @@ EndVideo
 {BeginColumns #1}%
 {EndColumns  \DrawHLine}
 
-%TODO: These are not added to the code yet. Will follow soon.
-% % Wick contraction using "simplewick" package. Redefine simplewick's command "contraction" to work for html.
-% \usepackage{simplewick}
-% \let\oldContraction\contraction
-% \renewcommand{\contraction}[5][5px]{%
-%  \text{BeginWick}  #2 \text{StartWick}  #3 \text{MiddleWick}  #4 \text{FinishWick}  #5 \text{SizeWick} \text{#1} \text{EndWick}%
-% }
-% \newenvironment{simplewick}%
-% {\text{BeginSimpleWick}}%
-% {\text{EndSimpleWick}}
-% 
-% % Wick contraction using Dan Schroeder Macros.
-% \newcommand{\beC}[2]{%
-% \text{BeginSchroederWick} \text{StartWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
-% }
-% \newcommand{\coC}[1]{%
-% \text{BeginSchroederWick} \text{MiddleWick} #1 \text{EndSchroederWick}%
-% }
-% \newcommand{\enC}[2]{%
-% \text{BeginSchroederWick} \text{FinishWick} #2 \text{SizeWick} #1 \text{EndSchroederWick}%
-% }
-
