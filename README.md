@@ -39,7 +39,7 @@ That's it, if everything worked well then you're done!! :)
 As of now, the script has only been tested on Ubuntu. I will extend it to Mac OS in the (very) near future.
 No attempts have been made to make this work on Windows, but you're welcome to try following option 2 below.
 
-#### Option 2. 
+#### Option 2: build from source
 
 In order to use the program, you will need the following programs and libraries:
 
