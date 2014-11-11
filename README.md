@@ -113,3 +113,8 @@ If you'll be writing in LyX, then place those same commands in the LyX preamble.
 
 To see what new LaTeX commands and environments you can use (for videos, toggles, alerts etc), have a look at the files preamble.tex, html_commands.tex, and pdf_commands.tex for a full description.
 
+
+### Licence
+
+GNU GPL version 2 or any later version
+
